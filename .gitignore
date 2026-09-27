@@ -1,0 +1,10 @@
+# Host-specific Herdr bindings and transient task evidence
+.choopan/runtime/
+.choopan/tasks/*
+
+# Personal Claude overrides
+*.local.md
+
+# Logs and common editor/OS noise
+*.log
+.DS_Store
