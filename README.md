@@ -89,6 +89,16 @@ Choopan uses Herdr's native sidebar as the cross-agent status display. Its recom
 
 Layouts are created without stealing focus, and existing user panes are preserved.
 
+### All-session overview
+
+On request, Choopan can create a dedicated overview workspace with an equal-area grid of every live Herdr-recognized agent. The grid uses read-only terminal observers, so it does not move the real worker panes, steal input ownership, or risk duplicate agent sessions.
+
+```bash
+node scripts/choopan-overview.mjs --label choopan-overview
+```
+
+Run it from a Herdr-managed pane. Rerunning creates a fresh overview workspace rather than modifying a prior one.
+
 ## Repository structure
 
 ```text
@@ -98,6 +108,11 @@ CLAUDE.md                         Orchestrator instructions and policies
 .choopan/ROLES.md                 Persistent functional-role registry
 .choopan/roles/<role-id>.md       Selectively loaded role memory
 .choopan/tasks/<task-id>.md       Local, transient task records
+.choopan/AUTO_DECIDE.md           User-authored bounded auto-decision policy
+.choopan/sessions/<key>.md        Local memory for a particular agent session
+.choopan/runtime/sessions/*.json  Local native-session and pane bindings
+.claude/skills/choopan-operations On-demand operations instructions
+scripts/                           Observer, overview, and session-memory helpers
 ```
 
 Host-specific runtime bindings, task evidence, logs, and personal overrides are excluded from Git.
@@ -116,6 +131,24 @@ Every material decision must record:
 - Follow-up and supporting evidence
 
 Existing entries are never silently rewritten. Replaced decisions are marked `superseded` or `reversed` and linked to the newer decision.
+
+## Auto-decide mode
+
+Choopan can resolve routine worker questions automatically, but only after you fill in `.choopan/AUTO_DECIDE.md` and set its mode to `bounded`. The policy declares your goals, philosophy, allowed decisions, escalation conditions, and confidence threshold.
+
+Even in bounded mode, Choopan always escalates destructive, irreversible, security, privacy, credential, payment, publication, merge, deployment, release, dependency, material-scope, and low-confidence decisions. Every automatic decision is recorded in the decision log with its policy basis and fallback.
+
+## Remembering and resuming sessions
+
+Use a stable agent name as a session key. Choopan stores concise, local session memory and a local Herdr runtime binding without copying the full transcript.
+
+```bash
+node scripts/choopan-session-memory.mjs sync
+node scripts/choopan-session-memory.mjs record <agent-target> --id <session-key>
+node scripts/choopan-session-memory.mjs start <session-key> --cwd <workspace-path>
+```
+
+`sync` creates or refreshes a local memory file for every named live agent. The resume helper refuses to start a duplicate when the remembered session is already live. If the user asks to start an existing live session in a new workspace, Choopan should offer to focus or move the live pane instead.
 
 ## Persistent roles
 

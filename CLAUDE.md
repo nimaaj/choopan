@@ -88,6 +88,14 @@ Do not create a persistent role for one-off work. Promote a worker to a persiste
 
 Retiring a role means marking it inactive and preserving its memory and decision references. Do not close its pane, terminate its process, discard its native session, or delete its files without explicit authorization.
 
+## On-demand orchestration features
+
+For an automatic decision, session continuity or resume, starting a remembered session in a new workspace, or building the all-session overview grid, invoke the `choopan-operations` project skill before acting.
+
+- Auto-decide mode is disabled unless `.choopan/AUTO_DECIDE.md` explicitly enables it and supplies user goals and philosophy.
+- Create or refresh a memory file for every live controlled agent, but load only the memory of a session relevant to the current objective.
+- The overview workspace is read-only: it observes live agents without moving their panes or taking their input ownership.
+
 ## macOS and Linux portability
 
 - Resolve the project root at runtime from the current directory or `git rev-parse --show-toplevel`; never assume `/home`, `/Users`, a specific username, or a fixed checkout location.

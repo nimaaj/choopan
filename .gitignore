@@ -1,6 +1,8 @@
 # Host-specific Herdr bindings and transient task evidence
 .choopan/runtime/
 .choopan/tasks/*
+.choopan/sessions/*
+!.choopan/sessions/.gitkeep
 
 # Personal Claude overrides
 *.local.md

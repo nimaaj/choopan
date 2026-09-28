@@ -85,3 +85,45 @@ This is the chronological, human-readable record of material decisions made by t
 - Confidence and assumptions: High confidence in the design; medium confidence in execution until a macOS smoke test has validated layout creation, skill discovery, session restoration, and optional-tool fallback behavior.
 - Follow-up: Run the same read-only bootstrap test on macOS and Linux, recording versions, selected adapters, and discrepancies.
 - Evidence: User instruction; `CLAUDE.md`; `.choopan/ROLES.md`; `.choopan/STATE.md`.
+
+## D007 — Bound automatic decisions to explicit user policy
+
+- Date: 2026-09-27
+- Status: accepted
+- Decided by: user and Choopan
+- Context: The orchestrator must be able to answer routine worker questions without carrying every decision back to the user, while preserving user authority over consequential work.
+- Options considered: Keep all decisions manual; allow unrestricted autonomous decisions; enable only a user-authored bounded mode with a defined escalation boundary.
+- Consequences and tradeoffs: Manual-only coordination is safe but slow. Unrestricted autonomy can silently exceed user intent. Bounded mode adds a policy-maintenance step but gives the orchestrator fast, auditable authority over explicitly allowed, reversible local choices.
+- Decision: Auto-decide mode remains off until `.choopan/AUTO_DECIDE.md` explicitly enables `bounded` mode with goals, philosophy, allowed decisions, and escalation rules. Each automatic decision is logged with its policy basis and reasoning.
+- Reasoning: The user should control both the philosophy and the scope of delegation; Choopan should make only the decisions that are clearly delegated.
+- Confidence and assumptions: High confidence. The policy must remain specific enough to distinguish a routine choice from a material change.
+- Follow-up: Populate the policy from the user's goals before enabling it; test one low-impact auto-decision and review the log quality.
+- Evidence: User instruction; `.choopan/AUTO_DECIDE.md`; `.claude/skills/choopan-operations/SKILL.md`.
+
+## D008 — Preserve session memory separately from persistent roles
+
+- Date: 2026-09-27
+- Status: accepted
+- Decided by: user and Choopan
+- Context: Every running agent session needs recallable context and a safe way to resume it in a new workspace, including one-off sessions that should not become permanent roles.
+- Options considered: Keep only role memory; rely only on the native agent transcript; create a local memory and runtime-binding pair for every controlled live session.
+- Consequences and tradeoffs: Role memory omits one-off agents. Native transcript continuity alone loses the operational purpose, artifacts, and safe resume guidance. Per-session memory adds local files but retains concise intent and recovery data without promoting every session to a role.
+- Decision: Create local, Git-ignored `.choopan/sessions/<key>.md` memory and `.choopan/runtime/sessions/<key>.json` bindings for each controlled session. Use them to prevent duplicate resumes and to start remembered sessions in a new Herdr workspace.
+- Reasoning: Functional persistence and session persistence are distinct. The role registry describes recurring responsibilities; session memory describes a particular conversation and its next safe action.
+- Confidence and assumptions: High confidence. Assumes Choopan records sessions after creation and meaningful state changes.
+- Follow-up: Validate a Claude Code session record and new-workspace resume flow during the first live smoke test.
+- Evidence: User instruction; `scripts/choopan-session-memory.mjs`; `.choopan/SESSION_MEMORY_TEMPLATE.md`.
+
+## D009 — Use read-only terminal observers for the overview grid
+
+- Date: 2026-09-27
+- Status: accepted
+- Decided by: user and Choopan
+- Context: The user wants every current controlled session visible in one equal-area overview workspace without disrupting the original agent panes.
+- Options considered: Move live panes into an overview workspace; duplicate agent processes; create a grid of read-only terminal observers.
+- Consequences and tradeoffs: Moving panes changes users' working layout. Duplicating agents risks duplicate work and session conflicts. Observer panes add a display process but preserve original terminal ownership and support multiple concurrent views.
+- Decision: Build a dedicated overview workspace of balanced read-only observer panes, one per live Herdr-recognized agent, using `terminal session observe`.
+- Reasoning: Herdr's observer stream is designed for third-party rendered-terminal views and does not take input, resize, scroll, or takeover ownership.
+- Confidence and assumptions: Medium confidence until tested against live agent terminals; Herdr documents observer support on macOS and Linux.
+- Follow-up: Run the overview script with multiple agents and inspect frame rendering, grid geometry, and refresh behavior.
+- Evidence: User instruction; `scripts/choopan-overview.mjs`; `scripts/choopan-observe.mjs`; Herdr CLI documentation.

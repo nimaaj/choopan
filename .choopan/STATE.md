@@ -29,6 +29,7 @@ Bootstrap a Claude Code orchestrator named Choopan that coordinates agents insid
 - Install the Herdr agent skill globally or project-locally. Global is recommended if Choopan will control multiple repositories.
 - Decide whether this directory will become the Choopan configuration repository.
 - Define the initial set of persistent specialist roles after observing recurring work; avoid creating roles speculatively.
+- Fill `.choopan/AUTO_DECIDE.md` with goals and philosophy before enabling bounded auto-decide mode.
 
 ## Next actions
 
@@ -45,6 +46,7 @@ Bootstrap a Claude Code orchestrator named Choopan that coordinates agents insid
 - Made human-readable decision logging mandatory for every material choice, including its authority, alternatives, consequences, reasoning, assumptions, and evidence.
 - Added a persistent functional-role registry that reconciles stable specialist identities with replaceable Herdr panes and native agent sessions.
 - Replaced persistent Linux-specific paths with runtime project-root discovery and added macOS/Linux portability and UI fallback rules.
+- Added an on-demand operations skill for bounded auto-decisions, local per-session memory and resume, and a read-only all-agent overview grid.
 
 ## Blockers
 
@@ -58,4 +60,7 @@ Bootstrap a Claude Code orchestrator named Choopan that coordinates agents insid
 - Durable decision log: `.choopan/DECISIONS.md`
 - Persistent role registry: `.choopan/ROLES.md`
 - Per-role memory: `.choopan/roles/<role-id>.md`
+- Auto-decision policy: `.choopan/AUTO_DECIDE.md`
+- Per-session memory template: `.choopan/SESSION_MEMORY_TEMPLATE.md`
+- On-demand operations skill: `.claude/skills/choopan-operations/SKILL.md`
 - Per-task details: `.choopan/tasks/<task-id>.md`
