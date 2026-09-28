@@ -89,6 +89,14 @@ Choopan uses Herdr's native sidebar as the cross-agent status display. Its recom
 
 Layouts are created without stealing focus, and existing user panes are preserved.
 
+### Claude workspace command
+
+When launched inside Herdr, Choopan inventories every live Claude Code agent in the current server and synchronizes local memory for its named sessions. It does not rearrange them automatically.
+
+Invoke `/choopanlayout` in Claude Code to explicitly rearrange every live Claude session. Each is moved—without duplicating its process—into a dedicated workspace with the Claude pane on the left at 72% width and a right-side pane running `y`. The command then creates the read-only all-agent overview.
+
+`y` must be available from the interactive shell used by new Herdr panes. If it is a shell function rather than a binary, ensure your shell startup configuration defines it for interactive shells.
+
 ### All-session overview
 
 On request, Choopan can create a dedicated overview workspace with an equal-area grid of every live Herdr-recognized agent. The grid uses read-only terminal observers, so it does not move the real worker panes, steal input ownership, or risk duplicate agent sessions.

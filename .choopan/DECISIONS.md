@@ -127,3 +127,17 @@ This is the chronological, human-readable record of material decisions made by t
 - Confidence and assumptions: Medium confidence until tested against live agent terminals; Herdr documents observer support on macOS and Linux.
 - Follow-up: Run the overview script with multiple agents and inspect frame rendering, grid geometry, and refresh behavior.
 - Evidence: User instruction; `scripts/choopan-overview.mjs`; `scripts/choopan-observe.mjs`; Herdr CLI documentation.
+
+## D010 — Standardize a per-Claude workspace layout
+
+- Date: 2026-09-28
+- Status: accepted
+- Decided by: user and Choopan
+- Context: New Choopan sessions need immediate visibility into every live Claude Code session, and the user wants a repeatable focused workspace for each Claude while retaining one all-session overview.
+- Options considered: Leave all sessions in their existing mixed workspaces; duplicate each Claude session into a new pane; move each live Claude pane into a dedicated workspace and add a right-side file browser.
+- Consequences and tradeoffs: Existing mixed workspaces preserve topology but blur responsibility. Duplicate Claude processes risk conflicting conversation sessions. Moving the existing pane changes workspace topology but preserves the real process and gives each session an uncluttered working surface.
+- Decision: On startup, Choopan inventories all live Claude agents in the current Herdr server and synchronizes named session memory without moving them. The explicit `/choopanlayout` command moves each Claude pane to its own workspace, gives it a 72%-wide left pane and a 28%-wide right pane running `y`, then creates the read-only all-agent overview workspace.
+- Reasoning: Separating detection from layout avoids surprise mutations at startup, while the explicit command produces the requested focused interface without duplicating agent processes.
+- Confidence and assumptions: Medium confidence until validated with several live Claude panes. Assumes the user's shell makes `y` available as requested and Herdr preserves a moved pane's running process.
+- Follow-up: Test the command with one, several, unnamed, and already-arranged Claude sessions; verify the `y` command is available in the new pane on macOS and Linux.
+- Evidence: User instruction; `CLAUDE.md`; `.claude/commands/choopanlayout.md`; `scripts/choopan-layout.mjs`.

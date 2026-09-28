@@ -47,6 +47,7 @@ Bootstrap a Claude Code orchestrator named Choopan that coordinates agents insid
 - Added a persistent functional-role registry that reconciles stable specialist identities with replaceable Herdr panes and native agent sessions.
 - Replaced persistent Linux-specific paths with runtime project-root discovery and added macOS/Linux portability and UI fallback rules.
 - Added an on-demand operations skill for bounded auto-decisions, local per-session memory and resume, and a read-only all-agent overview grid.
+- Added startup Claude-session discovery and the `/choopanlayout` command for per-Claude workspaces, right-side `y` panes, and a combined overview workspace.
 
 ## Blockers
 
@@ -63,4 +64,5 @@ Bootstrap a Claude Code orchestrator named Choopan that coordinates agents insid
 - Auto-decision policy: `.choopan/AUTO_DECIDE.md`
 - Per-session memory template: `.choopan/SESSION_MEMORY_TEMPLATE.md`
 - On-demand operations skill: `.claude/skills/choopan-operations/SKILL.md`
+- Claude workspace layout command: `.claude/commands/choopanlayout.md`
 - Per-task details: `.choopan/tasks/<task-id>.md`

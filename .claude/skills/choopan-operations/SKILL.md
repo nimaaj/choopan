@@ -73,3 +73,9 @@ node scripts/choopan-overview.mjs --label choopan-overview
 The script creates a recursively balanced grid, assigns one observer to each live agent, and labels panes with the agent target and state. It leaves existing overview workspaces unchanged rather than closing or repurposing user panes. Rerun it to create a fresh snapshot grid when the live-agent set changes.
 
 Observer panes are read-only views, not control surfaces. Use the original worker pane or `herdr agent` commands to interact with an agent.
+
+## Claude-session layout
+
+When the user invokes `/choopanlayout`, use `.claude/commands/choopanlayout.md`. The helper moves every live Claude Code agent pane into a dedicated workspace, preserving it as the large left pane and starting the user's `y` command in a 28%-wide right pane. It then synchronizes named session memory and creates the all-agent observer overview.
+
+This changes Claude agents' workspace topology, so inspect and report the affected agents before running it. It must not move non-Claude agents, close panes, or create duplicate Claude processes. Its local runtime record makes repeated invocations skip sessions already laid out.
